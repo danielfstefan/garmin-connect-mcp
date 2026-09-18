@@ -8,6 +8,37 @@ A Model Context Protocol (MCP) server for Garmin Connect integration. Access you
 [![PyPI](https://img.shields.io/pypi/v/garmin-connect-mcp.svg)](https://pypi.org/project/garmin-connect-mcp/)
 [![Docker](https://img.shields.io/badge/docker-ghcr.io-blue.svg)](https://github.com/eddmann/garmin-connect-mcp/pkgs/container/garmin-connect-mcp)
 
+> ### Maintained fork
+>
+> This is a maintained fork of
+> [**eddmann/garmin-connect-mcp**](https://github.com/eddmann/garmin-connect-mcp),
+> created and written by **Edd Mann** (MIT, © 2025). All credit for the original
+> server, its 22 tools, resources and prompts belongs to him — this fork exists
+> only because the upstream repository has had no commits since **2026-05-20**.
+>
+> Changes here are deliberately small, covered by tests, and offered back
+> upstream as pull requests.
+>
+> **What this fork adds over upstream 1.0.1**
+>
+> | | upstream 1.0.1 | this fork (1.0.2) |
+> |---|---|---|
+> | `manage_weight_data` **add** | Broken — the date is passed in the `unitKey` position, so every add raises `ValueError: unitKey must be one of {'kg', 'lbs'}` | Fixed — routes through `add_weigh_in_with_timestamps` |
+> | `manage_weight_data` **delete** | `samplePk` ids are passed where a date is expected, so the requested entries are never the ones removed | Deletes exactly the requested entries, by `samplePk`; refuses to silently wipe a multi-entry day |
+> | Calendar-day control | none | Optional `local_timestamp` / `gmt_timestamp` |
+> | Timezone safety | — | Date-only additions anchor at local noon, so they cannot slip into the previous day (the real-world Garmin account-timezone off-by-one) |
+> | Tests for this tool | none | Full coverage of every add/delete path |
+>
+> Install this fork:
+>
+> ```sh
+> uvx --from git+https://github.com/danielfstefan/garmin-connect-mcp garmin-connect-mcp
+> ```
+>
+> The upstream release remains on PyPI as
+> [`garmin-connect-mcp`](https://pypi.org/project/garmin-connect-mcp/) and is
+> untouched by this fork.
+
 ## Overview
 
 This MCP server provides 22 tools to interact with your Garmin Connect account, organized into 8 categories:

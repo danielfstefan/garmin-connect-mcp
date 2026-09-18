@@ -1,6 +1,6 @@
 [project]
 name = "garmin-connect-mcp"
-version = "1.0.0"
+version = "1.0.2"
 description = "Model Context Protocol server for Garmin Connect API integration"
 readme = "README.md"
 requires-python = ">=3.12"

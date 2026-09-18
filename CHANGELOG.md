@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026-09-18
+
+Maintained-fork release. The original project is by **Edd Mann**
+([eddmann/garmin-connect-mcp](https://github.com/eddmann/garmin-connect-mcp));
+all original work is his. This fork continues maintenance while upstream is
+inactive, and every change here is offered back as a pull request.
+
+### Fixed
+
+- `manage_weight_data` **add** passed the date to `add_weigh_in` in the
+  `unitKey` position, so the call always raised
+  `ValueError: unitKey must be one of {'kg', 'lbs'}`. It now uses
+  `add_weigh_in_with_timestamps`.
+- `manage_weight_data` **delete** passed comma-separated `samplePk` ids to
+  `delete_weigh_ins`, which expects a date, so the requested entries were never
+  the ones removed. Entries are now resolved against the day and deleted
+  individually by `samplePk`.
+- Date-only additions are anchored to local **noon** rather than midnight.
+  Garmin re-buckets entries using the *account* timezone, so a midnight anchor
+  lands in the previous calendar day whenever that timezone sits behind UTC.
+
+### Added
+
+- Optional `unit`, `local_timestamp`, `gmt_timestamp` and `delete_all`
+  parameters on `manage_weight_data`.
+- `tests/test_weight.py` covering every add and delete path.
+
 ## [1.0.1] - 2026-05-19
 
 ### Changed
